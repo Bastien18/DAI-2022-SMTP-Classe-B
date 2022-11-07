@@ -1,0 +1,16 @@
+Cahier des charges:
+	Client:
+	
+	Application:
+		SMTP_Manager:
+			Forgage du mail
+				Header
+				Data
+				
+		DNS_Manager:
+			Requête pour trouver serveur MockMock
+			
+		Mail_Manager:
+			Lit les fichiers de configs avec les emails afin de choisir une 
+			prank à envoyer aux nombre de destinataires spécified depuis l'utilisateur sender.
+		
