@@ -48,7 +48,7 @@ Pour commencer nous avons séparer le travaille en trois:
 - Application pricipale (faire des pranks et utiliser les 2 modules précédents) 
 
 Pour ce faire nous avons fait un diagramme de classe:
-
+![UML](figures/DiagrammeClasse.svg)
 
 * **A description of your implementation**: document the key aspects of your code. It is a good idea to start with a **class diagram**. Decide which classes you want to show (focus on the important ones) and describe their responsibilities in text. It is also certainly a good idea to include examples of dialogues between your client and an SMTP server (maybe you also want to include some screenshots here).
 
