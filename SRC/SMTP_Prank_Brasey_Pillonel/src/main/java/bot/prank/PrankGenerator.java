@@ -56,18 +56,4 @@ public class PrankGenerator {
 
         return pranks;
     }
-
-    public static void main(String[] args){
-        IFileConfigurer fc = new FileConfigurer();
-        PrankGenerator gene = new PrankGenerator(fc);
-        List<Prank> pranks = gene.generatePrank();
-
-        for(Prank prank : pranks){
-            System.out.println("Sender" + prank.group.getSender().getEmailAddress());
-            for(EmailAddr emailAddr : prank.group.getReciever())
-                System.out.println("Reciever" + emailAddr.getEmailAddress());
-            System.out.println("Content" + prank.content.getSubject() + " " + prank.content.getContent());
-            System.out.println();
-        }
-    }
 }

@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class FileConfigurer implements IFileConfigurer{
     private static final Logger LOG = Logger.getLogger(FileConfigurer.class.getName());
@@ -59,7 +58,6 @@ public class FileConfigurer implements IFileConfigurer{
 
     public List<EmailContent> getContentFromJSON() throws RuntimeException{
         List<EmailContent> listContent = new ArrayList<>();
-
         JSONParser jsonParser = new JSONParser();
 
         try(FileReader reader = new FileReader(EMAIL_CONTENT_JSON_PATH, StandardCharsets.UTF_8)){
@@ -67,6 +65,7 @@ public class FileConfigurer implements IFileConfigurer{
             JSONArray messages = (JSONArray) obj;
 
             for(int i = 0; i < messages.size(); ++i){
+                // Parsing every messages to get both subject and content
                 JSONObject msg       = (JSONObject) messages.get(i);
                 JSONObject msgObject = (JSONObject) msg.get("message");
                 String  subject = (String) msgObject.get(SUBJECT),
@@ -134,19 +133,6 @@ public class FileConfigurer implements IFileConfigurer{
             if(!matcher.matches())
                 throw new RuntimeException("Email address invalid");
         }
-    }
-
-    public static void main(String[] args){
-        List<EmailAddr> dataAddr = new ArrayList<>();
-        List<EmailContent> dataContent = new ArrayList<>();
-        FileConfigurer fg = new FileConfigurer();
-
-        dataAddr = fg.getVictimsFromCSV();
-        dataContent = fg.getContentFromJSON();
-
-        for(EmailContent content : dataContent)
-            System.out.println(content.getSubject() + " " + content.getContent());
-
     }
 
     public String getSmtpServerAddress() {
