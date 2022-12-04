@@ -50,6 +50,13 @@ Pour commencer nous avons séparer le travaille en trois:
 Pour ce faire nous avons fait un diagramme de classe:
 ![UML](figures/DiagrammeClasse.svg)
 
-* **A description of your implementation**: document the key aspects of your code. It is a good idea to start with a **class diagram**. Decide which classes you want to show (focus on the important ones) and describe their responsibilities in text. It is also certainly a good idea to include examples of dialogues between your client and an SMTP server (maybe you also want to include some screenshots here).
+Les classes les plus importantes sont:
+### FileConfigurer
+Qui va venir lire et traduire les informations présentes dans les fichiers pour les transmettre a PrankGenerator.
+### SMTPClient
+Qui va faire le lien entre notre application et un serveur SMTP pour pouvoir envoyer nos emails.
+### PrankGenerator
+Qui va s'occuper d'instancier les Prank avec les inforamation reçu via FileConfigurer et qui va ensuite utilisé SMTPClient pour les envoyer.
+
 
 
