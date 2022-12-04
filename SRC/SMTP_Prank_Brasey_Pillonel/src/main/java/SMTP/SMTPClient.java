@@ -15,7 +15,8 @@ public class SMTPClient {
     private BufferedReader in;
     private BufferedWriter out;
 
-    private boolean error = false;
+    private boolean error        = false;
+    private boolean endOfReading = false;
 
 
     public SMTPClient(String srvAddr, int port){
@@ -46,7 +47,8 @@ public class SMTPClient {
         }
     }
     public void sendMail(Email email) throws IOException{
-        Thread t1 =new Thread(new Socket_Reader(this));
+        endOfReading = false;
+        Thread t1 = new Thread(new Socket_Reader(this));
         t1.start();
         String endline = "\r\n";
 
@@ -70,6 +72,7 @@ public class SMTPClient {
         if(error)return;
 
         out.write("DATA" + endline);
+        out.write("Content-Type: text/plain; charset=utf-8" + endline);
         out.flush();
         if(error)return;
         out.write(  "From: " + email.getSender() + endline +
@@ -78,7 +81,12 @@ public class SMTPClient {
                         email.getContent().replace("\n", endline) +
                         endline + "." + endline);
         out.flush();
-        t1.stop();
+        endOfReading = true;
+        try{
+            t1.join();
+        }catch(Exception ex){
+            LOG.log(Level.SEVERE, ex.toString(), ex);
+        }
     }
 
     private class Socket_Reader implements Runnable{
@@ -96,7 +104,7 @@ public class SMTPClient {
                     LOG.info(response);
                     response = response.substring(0,3);
                     if(!(response.equals("250") || response.equals("220")|| response.equals("354")))parent.error = true;
-                } while (!parent.error);
+                } while (!parent.error && !parent.endOfReading);
             }catch (IOException e){
                 LOG.log(Level.SEVERE, e.toString(), e);
                 parent.close();
