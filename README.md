@@ -15,10 +15,14 @@ MockMock permet de simuler un server SMTP en local et il est possible de consult
 - JDK 17.0 ou plus
 - Maven
 ### Execution
-Pour lancer l'application, il faut aller dans le dossier /SRC/SMTP_Prank_Brasey_Pillonel et executer les commande suivante
-'''
-TODO
-'''
+Pour lancer l'application, il faut aller dans le dossier `/SRC/SMTP_Prank_Brasey_Pillonel` et executer les commandes suivante
+
+```
+maven clean package
+cd target
+java -jar SMTP_Prank_Brasey_Pillonel-1.0-SNAPSHOT.jar
+```
+
 ### MockMock
 le repo [MockMock](https://github.com/DominiqueComte/MockMock) détail comment lancer le serveur.
 
