@@ -10,7 +10,6 @@ import bot.prank.PrankGenerator;
 import java.util.concurrent.TimeUnit;
 
 public class MailRobot {
-
     private static final Logger LOG = Logger.getLogger(MailRobot.class.getName());
     public static void main(String[] args) {
         IFileConfigurer fc;

@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="SMTP_Prank_Brasey_Pillonel" options="--add-modules java.logging" />
+      <module name="SMTP_Prank_Brasey_Pillonel" options="" />
     </option>
   </component>
 </project>
