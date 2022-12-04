@@ -14,14 +14,19 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class FileConfigurer implements IFileConfigurer{
     private static final Logger LOG = Logger.getLogger(FileConfigurer.class.getName());
     private static final String COMMA_DELIMITER         = ",",
                                 EMAIL_ADDRESS_CSV_PATH  = "ConfigFile/email_address.csv",
-                                EMAIL_CONTENT_CSV_PATH  = "ConfigFile/email_content.csv",
+                                EMAIL_CONTENT_JSON_PATH = "ConfigFile/email_content.json",
                                 CONFIG_PROPERTIES_PATH  = "ConfigFile/config.properties",
-                                SUBJECT                 = "Subject:",
-                                CONTENT                 = "Content:",
+                                SUBJECT                 = "Subject",
+                                CONTENT                 = "Content",
                                 REGEX                   = "^(.+)@(.+)$";
 
     private String smtpServerAddress;
@@ -34,7 +39,7 @@ public class FileConfigurer implements IFileConfigurer{
 
     public FileConfigurer(){
         victims     = getVictimsFromCSV();
-        contents    = getContentFromCSV();
+        contents    = getContentFromJSON();
         getProperties("ConfigFile/config.properties");
         verifyEmailAddress();
     }
@@ -52,22 +57,29 @@ public class FileConfigurer implements IFileConfigurer{
         return listEmail;
     }
 
-    public List<EmailContent> getContentFromCSV() throws RuntimeException{
-        List<List<String>> dataEmails = getDataFromCSV(EMAIL_CONTENT_CSV_PATH);
+    public List<EmailContent> getContentFromJSON() throws RuntimeException{
         List<EmailContent> listContent = new ArrayList<>();
 
-        for(List<String> ls : dataEmails){
-            for(String s : ls){
-                String  subject = new String(),
-                        content = new String();
+        JSONParser jsonParser = new JSONParser();
 
-                if(!s.contains(SUBJECT) || !s.contains(CONTENT))
-                    throw new RuntimeException("Format incorrect must match the following sequence \"Subject:<your subject>Content:<your content>\"");
+        try(FileReader reader = new FileReader(EMAIL_CONTENT_JSON_PATH, StandardCharsets.UTF_8)){
+            Object obj = jsonParser.parse(reader);
+            JSONArray messages = (JSONArray) obj;
 
-                subject = s.split(SUBJECT)[1].split(CONTENT)[0];
-                content = s.split(CONTENT)[1];
+            for(int i = 0; i < messages.size(); ++i){
+                JSONObject msg       = (JSONObject) messages.get(i);
+                JSONObject msgObject = (JSONObject) msg.get("message");
+                String  subject = (String) msgObject.get(SUBJECT),
+                        content = (String) msgObject.get(CONTENT);
+
+                if(subject == null || content == null)
+                    throw new RuntimeException("Missing subject or content field in " + EMAIL_CONTENT_JSON_PATH);
+
                 listContent.add(new EmailContent(subject, content));
             }
+
+        }catch(Exception ex){
+            LOG.log(Level.SEVERE, ex.toString(), ex);
         }
 
         return listContent;
@@ -130,15 +142,11 @@ public class FileConfigurer implements IFileConfigurer{
         FileConfigurer fg = new FileConfigurer();
 
         dataAddr = fg.getVictimsFromCSV();
-        dataContent = fg.getContentFromCSV();
+        dataContent = fg.getContentFromJSON();
 
-        for(EmailAddr addr : dataAddr){
-            System.out.println(addr.getEmailAddress());
-        }
+        for(EmailContent content : dataContent)
+            System.out.println(content.getSubject() + " " + content.getContent());
 
-        for(EmailContent cont : dataContent){
-            System.out.println(cont.getSubject() + " " + cont.getContent());
-        }
     }
 
     public String getSmtpServerAddress() {

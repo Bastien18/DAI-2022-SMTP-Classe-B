@@ -1,0 +1,11 @@
+MailRobot.class
+bot\mail\Email.class
+SMTP\SMTPClient.class
+bot\prank\Prank.class
+bot\mail\EmailAddr.class
+bot\mail\EmailContent.class
+FileConfigurer\FileConfigurer.class
+bot\mail\Group.class
+SMTP\SMTPClient$Socket_Reader.class
+FileConfigurer\IFileConfigurer.class
+bot\prank\PrankGenerator.class
