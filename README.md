@@ -26,6 +26,24 @@ java -jar SMTP_Prank_Brasey_Pillonel-1.0-SNAPSHOT.jar
 ### MockMock
 le repo [MockMock](https://github.com/DominiqueComte/MockMock) détail comment lancer le serveur.
 
+### Configuration 
+Pour la configuration du programme, il faut aller modifier les fichiers dans `SRC/SMTP_Prank_Brasey_Pillonel/ConfigFile/`
+- **config.properties** pour les paramètres generaux (simplement changet les valeur en fin de ligne)
+- **email_address.csv** pour la liste des addresses email (adresse email séparer par une virgule)
+- **email_content.json** pour la liste des sujets et contenus des messages  
+pour ajouter un nouvelle élément suiver le format ci-dessous:
+````
+{ 
+  "message":{
+    "Subject": "<my_subject>"
+    "Content": "<my_content>"
+  }
+}
+````
+
+
+
+
 MockMock est un outil permettant de "mock" / simuler un vrai serveur SMTP. Ce serveur aura pour but de récupérer tous les mails envoyés depuis votre machine et de les afficher de manière graphique grâce à une interface web. De cette façon, il est facile de tester l'application sans envoyer des e-mails à de vraies personnes.
 
 * **What is MockMock (or any other mock SMTP server you decided to use)?**
