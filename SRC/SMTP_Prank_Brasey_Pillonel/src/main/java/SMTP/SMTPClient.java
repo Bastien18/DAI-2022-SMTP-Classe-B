@@ -75,10 +75,10 @@ public class SMTPClient {
         out.flush();
         if(error)return;
         out.write(  "From: " + email.getSender() + endline +
+                        "Subject: =?ISO-8859-1?B?" + Base64.getEncoder().encodeToString(email.getSubject().getBytes()) + "?=" + endline +
                         "To: " + formatReciever + endline +
-                        "Subject: =?utf-8?B? " + Base64.getEncoder().encodeToString(email.getSubject().getBytes()) + "?=" + endline +
-                        email.getContent() +
-                        endline + "." + endline);
+                        email.getContent() + endline +
+                        "." + endline);
         out.flush();
         endOfReading = true;
         try{
