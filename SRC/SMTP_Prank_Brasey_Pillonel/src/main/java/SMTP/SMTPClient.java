@@ -75,7 +75,7 @@ public class SMTPClient {
         out.flush();
         if(error)return;
         out.write(  "From: " + email.getSender() + endline +
-                        "Subject: =?ISO-8859-1?B?" + Base64.getEncoder().encodeToString(email.getSubject().getBytes()) + "?=" + endline +
+                        "Subject: =?utf-8?B?" + Base64.getEncoder().encodeToString(email.getSubject().getBytes()) + "?=" + endline +
                         "To: " + formatReciever + endline +
                         email.getContent() + endline +
                         "." + endline);
@@ -100,7 +100,7 @@ public class SMTPClient {
                 do {
                     response = parent.in.readLine();
                     if(response == null)break;
-                    LOG.info(response);
+                    //LOG.info(response);
                     response = response.substring(0,3);
                     if(!(response.equals("250") || response.equals("220")|| response.equals("354")))parent.error = true;
                 } while (!parent.error && !parent.endOfReading);
