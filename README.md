@@ -58,5 +58,18 @@ Qui va faire le lien entre notre application et un serveur SMTP pour pouvoir env
 ### PrankGenerator
 Qui va s'occuper d'instancier les Prank avec les inforamation reçu via FileConfigurer et qui va ensuite utilisé SMTPClient pour les envoyer.
 
-
-
+##SMTP
+pour la partie SMTP, nous avons implementer un model de requet simple:
+````
+EHLO SMTPManager \CRLF
+MAIL FROM: <sender email> \CRLF
+RCPT_TO: <receiver0 email>,<receiver1 email>,... \CRLF
+DATA \CRLF
+  Content-Type: text/plain; charset=utf-8 \CRLF
+  From: <sender email> \CRLF
+  Subject: <encoded_Subject> \CRLF
+  To: <receiver0 email>,<receiver1 email>,... \CRLF
+  <content> \CRLF
+  . \CRLF    
+````
+Si tous se passe bien, le server va normalement répondre à tous ces messages avec un ou plusieurs code de réponse positif dans le cas contraire le programme retourne une erreur.
