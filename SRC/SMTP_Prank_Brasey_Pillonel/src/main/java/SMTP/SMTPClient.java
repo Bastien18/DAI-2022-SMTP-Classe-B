@@ -4,10 +4,9 @@ import bot.mail.Email;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Base64;
 
 public class SMTPClient {
     private static final Logger LOG = Logger.getLogger(SMTPClient.class.getName());
@@ -77,8 +76,8 @@ public class SMTPClient {
         if(error)return;
         out.write(  "From: " + email.getSender() + endline +
                         "To: " + formatReciever + endline +
-                        "Subject: " + email.getSubject() + endline +
-                        email.getContent().replace("\n", endline) +
+                        "Subject: =?utf-8?B? " + Base64.getEncoder().encodeToString(email.getSubject().getBytes()) + "?=" + endline +
+                        email.getContent() +
                         endline + "." + endline);
         out.flush();
         endOfReading = true;
