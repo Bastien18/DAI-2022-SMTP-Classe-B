@@ -19,8 +19,7 @@ Pour lancer l'application, il faut aller dans le dossier `/SRC/SMTP_Prank_Brasey
 
 ```
 maven clean package
-cd target
-java -jar SMTP_Prank_Brasey_Pillonel-1.0-SNAPSHOT.jar
+java -jar target/SMTP_Prank_Brasey_Pillonel-1.0-SNAPSHOT.jar
 ```
 
 ### MockMock
